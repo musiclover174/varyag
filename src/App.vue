@@ -50,8 +50,34 @@
               @click="burgerOpen = !burgerOpen"
             ></button>
             <ul class="menu__list">
-              <li class="menu__item" v-for="link of links" :key="link.title">
-                <a class="menu__href" :href="link.href">{{ link.title }}</a>
+              <li class="menu__item">
+                <router-link
+                  to="/"
+                  class="menu__href"
+                  active-class="active"
+                  exact
+                >Главная</router-link>
+              </li>
+              <li
+                class="menu__item"
+                :class="{ menu__item_sub: link.child }"
+                v-for="link of links"
+                :key="link.title"
+              >
+                <router-link
+                  :to="link.href"
+                  class="menu__href"
+                  active-class="active"
+                >{{ link.title }}</router-link>
+                <ul class="menu__sublist" v-if="link.child">
+                  <li class="menu__subitem" v-for="sublink of link.child" :key="sublink.title">
+                    <router-link
+                      :to="sublink.href"
+                      class="menu__subhref"
+                      active-class="active"
+                    >{{ sublink.title }}</router-link>
+                  </li>
+                </ul>
               </li>
             </ul>
           </nav>
@@ -63,15 +89,8 @@
       </section>
     </header>
 
-    <!--<div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>-->
-
     <main class="content" role="main">
-      <div class="container">
-        <router-view/>
-      </div>
+      <router-view/>
     </main>
 
   </div>
@@ -98,11 +117,33 @@ export default {
     },
     links() {
       return [
-        { title: 'Главная', href: '/' },
-        { title: 'Объекты', href: '/objects' },
-        { title: 'Договоры', href: '/contracts' },
+        {
+          title: 'Объекты',
+          href: '/objects',
+          child: [
+            {
+              title: 'История сигналов',
+              href: '/objects/history',
+            },
+            {
+              title: 'Ответственные',
+              href: '/objects/responsible',
+            },
+            {
+              title: 'Пользователи',
+              href: '/objects/users',
+            },
+          ],
+        },
+        {
+          title: 'Договоры',
+          href: '/contracts',
+        },
       ];
     },
+  },
+  created() {
+    this.$store.dispatch('getAllObjects', this.$store.getters.user.token);
   },
 };
 </script>

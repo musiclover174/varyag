@@ -1070,6 +1070,7 @@ textarea.warning {
   font-weight: 400;
   line-height: 24px;
   position: relative;
+  left: 0;
   -webkit-transition: 0.7s left, 0.7s color, 0.7s background;
   transition: 0.7s left, 0.7s color, 0.7s background;
 }
@@ -1462,11 +1463,13 @@ textarea.warning {
   width: calc(100% - 240px);
   padding-top: 55px;
   padding-left: 54px;
+  padding-bottom: 55px;
 }
 @media (max-width: 960px) {
   .content__main {
     padding-left: 0;
     padding-top: 35px;
+    padding-bottom: 35px;
     width: 100%;
   }
 }
@@ -1565,4 +1568,38 @@ textarea.warning {
   font-size: 14px;
   font-weight: 400;
   line-height: 24px;
+}
+.objects__item + .objects__item{
+  margin-top: 25px;
+}
+.objects__name{
+  color: #303236;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  margin-bottom: 4px;
+}
+.objects__place{
+  color: #757575;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.users__list{
+  margin-top: 18px;
+  margin-left: 43px;
+}
+@media (max-width: 500px) {
+  .users__list {
+    margin-left: 23px;
+  }
+}
+.users__item{
+  color: #303236;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.users__item + .users__item {
+  margin-top: 22px;
 }

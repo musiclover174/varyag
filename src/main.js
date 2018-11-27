@@ -11,9 +11,8 @@ new Vue({
   render: h => h(App),
   created() {
     const user = JSON.parse(localStorage.getItem('user')) || '';
-    if (user) {
+    if (user && !this.$store.getters.user) {
       this.$store.dispatch('autoLoginUser', user);
-      this.$router.push('/');
     }
   },
 }).$mount('#app');

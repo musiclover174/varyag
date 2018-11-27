@@ -1,4 +1,5 @@
 import axios from 'axios';
+import API_URL from './constants';
 
 class User {
   constructor(token, name) {
@@ -23,7 +24,8 @@ export default {
 
       try {
         await axios
-          .post(`https://testlk.variag.ru/api/v2/sendSms/${phone}`);
+          .post(`${API_URL}/api/v2/sendSms/${phone}`);
+        commit('setLoading', false);
       } catch (e) {
         commit('setLoading', false);
         commit('setError', e.message);
@@ -36,7 +38,7 @@ export default {
 
       try {
         await axios
-          .post('https://testlk.variag.ru/api/v2/register', {
+          .post(`${API_URL}/api/v2/register`, {
             phone,
             smscode: code,
           })
@@ -44,6 +46,7 @@ export default {
             const user = new User(data.token, data.full_name);
             localStorage.setItem('user', JSON.stringify(user));
             commit('setUser', user);
+            commit('setLoading', false);
           });
       } catch (e) {
         commit('setLoading', false);

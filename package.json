@@ -11,8 +11,10 @@
     "axios": "^0.18.0",
     "imask": "^4.1.1",
     "inputmask": "^5.0.0-beta.81",
+    "moment": "^2.22.2",
     "vue": "^2.5.17",
     "vue-imask": "^4.1.1",
+    "vue-moment": "^4.0.0",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
   },
