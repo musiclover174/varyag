@@ -4,10 +4,11 @@ import AuthGuard from './guard';
 import Home from '@/components/Home.vue';
 import Login from '@/components/Login.vue';
 import Objects from '@/components/Objects.vue';
-import History from '@/components/History.vue';
+import History from '@/components/History/History.vue';
 import Responsible from '@/components/Responsible.vue';
 import Users from '@/components/Users.vue';
-import Contracts from '@/components/Contracts.vue';
+import Contracts from '@/components/Contracts/Contracts.vue';
+import Contract from '@/components/Contracts/Contract.vue';
 
 Vue.use(Router);
 
@@ -25,6 +26,18 @@ export default new Router({
       name: 'contracts',
       component: Contracts,
       beforeEnter: AuthGuard,
+    },
+    {
+      path: '/contracts/:id',
+      props: true,
+      name: 'contract',
+      component: Contract,
+      beforeEnter: AuthGuard,
+      meta: {
+        breadcrumb: [
+          { name: 'Договоры', link: 'contracts' },
+        ],
+      },
     },
     {
       path: '/objects/history',
