@@ -41,26 +41,22 @@ export default {
 
       try {
         await axios
-          .post(`${API_URL}/api/v2/getAllObjects`, null, headers)
+          .post(`${API_URL}/api/v2/getAllObjects`, { persons: true }, headers)
           .then(({ data }) => {
             if (data.objects) {
               data.objects.forEach(async (object) => {
-                await axios
-                  .post(`${API_URL}/api/v2/loadPreferences/${object.number}`, null, headers)
-                  .then(({ data }) => {
-                    resultObjs.push(
-                      new Obj(
-                        object.number,
-                        object.contract.number,
-                        object.contract.date,
-                        object.address.Title,
-                        'ООО НПО Панцирь',
-                        'Пультовая охрана',
-                        object.name_by_user || object.name,
-                        data.persons,
-                      ),
-                    );
-                  });
+                resultObjs.push(
+                  new Obj(
+                    object.number,
+                    object.contract.number,
+                    object.contract.date,
+                    object.address.Title,
+                    'ООО НПО Панцирь',
+                    'Пультовая охрана',
+                    object.name_by_user || object.name,
+                    object.persons,
+                  ),
+                );
               });
             }
           });
