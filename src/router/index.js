@@ -54,7 +54,7 @@ export default new Router({
       beforeEnter: AuthGuard,
       meta: {
         breadcrumb: [
-          { name: 'Объекты', link: '/objects' },
+          { name: 'Объекты', link: 'objects' },
         ],
       },
     },
