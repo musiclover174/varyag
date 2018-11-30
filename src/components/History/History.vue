@@ -1,7 +1,14 @@
 <template>
   <div class="container">
-    <aside class="content__side">
-      <button class="content__side-close" type="button"></button>
+    <aside
+      class="content__side"
+      :class="{ open: sideFlag }"
+    >
+      <button
+        class="content__side-close"
+        type="button"
+        @click="sideClose"
+      ></button>
       <nav class="content__side-nav">
         <ul class="content__side-list">
           <li class="content__side-item">
@@ -12,11 +19,18 @@
               exact
             >История сигналов</router-link>
             <ul class="content__side-sublist">
-              <li class="content__side-subitem">
-                <a class="content__side-subhref" href="#">Производственная, 8а</a>
-              </li>
-              <li class="content__side-subitem">
-                <a class="content__side-subhref" href="#">Лаборатория</a>
+              <li
+                class="content__side-subitem"
+                v-for="object of objects"
+                :key="object.id"
+              >
+                <router-link
+                  :to="'/objects/history/' + object.id"
+                  class="content__side-subhref"
+                  active-class="active"
+                  exact
+                >{{ object.name }}
+                </router-link>
               </li>
             </ul>
           </li>
@@ -26,7 +40,7 @@
               class="content__side-href"
               active-class="active"
               exact
-            >Ответственный</router-link>
+            >Ответственныe</router-link>
           </li>
           <li class="content__side-item">
             <router-link
@@ -45,7 +59,26 @@
       <section class="top">
         <h1 class="top__title">История сигналов</h1>
       </section>
+      В дальнейшем на этой странице будет какой-то контент, но пока ничего нет
 
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    sideClose() {
+      this.$store.dispatch('setSideState', false);
+    },
+  },
+  computed: {
+    objects() {
+      return this.$store.getters.objects;
+    },
+    sideFlag() {
+      return this.$store.getters.sideOpen;
+    },
+  },
+};
+</script>

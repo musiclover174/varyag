@@ -5,6 +5,7 @@ import Home from '@/components/Home.vue';
 import Login from '@/components/Login.vue';
 import Objects from '@/components/Objects.vue';
 import History from '@/components/History/History.vue';
+import HistoryElem from '@/components/History/HistoryElem.vue';
 import Responsible from '@/components/Responsible.vue';
 import Users from '@/components/Users.vue';
 import Contracts from '@/components/Contracts/Contracts.vue';
@@ -44,6 +45,18 @@ export default new Router({
       name: 'history',
       component: History,
       beforeEnter: AuthGuard,
+    },
+    {
+      path: '/objects/history/:id',
+      props: true,
+      name: 'historyElem',
+      component: HistoryElem,
+      beforeEnter: AuthGuard,
+      meta: {
+        breadcrumb: [
+          { name: 'Объекты', link: '/objects' },
+        ],
+      },
     },
     {
       path: '/objects',

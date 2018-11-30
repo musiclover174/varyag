@@ -73,5 +73,6 @@ export default {
   getters: {
     objects: state => state.objects,
     getObjectsByContract: state => number => state.objects.filter(obj => obj.number === number),
+    getObjectById: state => id => state.objects.find(obj => obj.id === Number(id)),
   },
 };

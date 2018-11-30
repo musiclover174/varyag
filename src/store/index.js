@@ -5,6 +5,8 @@ import user from './user';
 import objects from './objects';
 import persons from './persons';
 import contracts from './contracts';
+import signals from './signals';
+import helpers from './helpers';
 
 Vue.use(Vuex);
 
@@ -14,6 +16,8 @@ export default new Vuex.Store({
     user,
     persons,
     contracts,
+    signals,
+    helpers,
     objects,
   },
 });

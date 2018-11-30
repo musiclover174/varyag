@@ -1,7 +1,14 @@
 <template>
   <div class="container">
-    <aside class="content__side">
-      <button class="content__side-close" type="button"></button>
+    <aside
+      class="content__side"
+      :class="{ open: sideFlag }"
+    >
+      <button
+        class="content__side-close"
+        type="button"
+        @click="sideClose"
+      ></button>
       <nav class="content__side-nav">
         <ul class="content__side-list" v-if="contracts">
           <li
@@ -91,6 +98,11 @@ export default {
       breadcrumbList: this.$route.meta.breadcrumb,
     };
   },
+  methods: {
+    sideClose() {
+      this.$store.dispatch('setSideState', false);
+    },
+  },
   computed: {
     contract() {
       return this.$store.getters.getContractById(this.id);
@@ -100,6 +112,9 @@ export default {
     },
     objects() {
       return this.$store.getters.getObjectsByContract(this.id);
+    },
+    sideFlag() {
+      return this.$store.getters.sideOpen;
     },
   },
   created() {

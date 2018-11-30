@@ -1,7 +1,14 @@
 <template>
   <div class="container">
-    <aside class="content__side">
-      <button class="content__side-close" type="button"></button>
+    <aside
+      class="content__side"
+      :class="{ open: sideFlag }"
+    >
+      <button
+        class="content__side-close"
+        type="button"
+        @click="sideClose"
+      ></button>
       <nav class="content__side-nav">
         <ul class="content__side-list">
           <li class="content__side-item">
@@ -17,10 +24,13 @@
                 v-for="object of objects"
                 :key="object.id"
               >
-                <a
+                <router-link
+                  :to="'/objects/history/' + object.id"
                   class="content__side-subhref"
-                  :href="object.id"
-                >{{ object.name }}</a>
+                  active-class="active"
+                  exact
+                >{{ object.name }}
+                </router-link>
               </li>
             </ul>
           </li>
@@ -73,9 +83,17 @@
 
 <script>
 export default {
+  methods: {
+    sideClose() {
+      this.$store.dispatch('setSideState', false);
+    },
+  },
   computed: {
     objects() {
       return this.$store.getters.objects;
+    },
+    sideFlag() {
+      return this.$store.getters.sideOpen;
     },
   },
 };

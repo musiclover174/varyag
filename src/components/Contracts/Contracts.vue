@@ -1,7 +1,14 @@
 <template>
   <div class="container">
-    <aside class="content__side">
-      <button class="content__side-close" type="button"></button>
+    <aside
+      class="content__side"
+      :class="{ open: sideFlag }"
+    >
+      <button
+        class="content__side-close"
+        type="button"
+        @click="sideClose"
+      ></button>
       <nav class="content__side-nav">
         <ul class="content__side-list">
           <li
@@ -46,6 +53,14 @@ export default {
   computed: {
     contracts() {
       return this.$store.getters.contracts;
+    },
+    sideFlag() {
+      return this.$store.getters.sideOpen;
+    },
+  },
+  methods: {
+    sideClose() {
+      this.$store.dispatch('setSideState', false);
     },
   },
   created() {

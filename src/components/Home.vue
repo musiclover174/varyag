@@ -1,5 +1,7 @@
 <template>
   <div class="container">
-    <h1>Самая главная страница</h1>
+    <div class="content__main">
+      <p>Здесь будет какое-то содержимое</p>
+    </div>
   </div>
 </template>

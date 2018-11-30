@@ -15,7 +15,7 @@
               <button
                 class="header__sideopen"
                 type="button"
-                @click="sideOpen = !sideOpen"
+                @click="sideChanger"
               ><span></span></button>
               <button
                 class="header__menuopen"
@@ -103,7 +103,34 @@ export default {
       infoOpen: false,
       burgerOpen: false,
       sideOpen: false,
+      links: [{
+        title: 'Объекты',
+        href: '/objects',
+        child: [
+          {
+            title: 'История сигналов',
+            href: '/objects/history',
+          },
+          {
+            title: 'Ответственные',
+            href: '/objects/responsible',
+          },
+          {
+            title: 'Пользователи',
+            href: '/objects/users',
+          },
+        ],
+      },
+      {
+        title: 'Договоры',
+        href: '/contracts',
+      }],
     };
+  },
+  methods: {
+    sideChanger() {
+      this.$store.dispatch('setSideState', !this.sideFlag);
+    },
   },
   computed: {
     error() {
@@ -115,35 +142,17 @@ export default {
     userName() {
       return this.$store.getters.user.name.split(' ')[1];
     },
-    links() {
-      return [
-        {
-          title: 'Объекты',
-          href: '/objects',
-          child: [
-            {
-              title: 'История сигналов',
-              href: '/objects/history',
-            },
-            {
-              title: 'Ответственные',
-              href: '/objects/responsible',
-            },
-            {
-              title: 'Пользователи',
-              href: '/objects/users',
-            },
-          ],
-        },
-        {
-          title: 'Договоры',
-          href: '/contracts',
-        },
-      ];
+    sideFlag() {
+      return this.$store.getters.sideOpen;
     },
   },
   created() {
     this.$store.dispatch('getAllObjects', this.$store.getters.user.token);
+  },
+  watch: {
+    $route() {
+      this.$store.dispatch('setSideState', false);
+    },
   },
 };
 </script>
