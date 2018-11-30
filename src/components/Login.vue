@@ -16,7 +16,6 @@
       </div>
       <div class="auth__row auth__row_end">
         <button class="auth__btn" type="submit">Отправить смс</button>
-        <!--<a class="auth__forgot" href="#" v-on:click="sendData">Другой номер?</a>-->
       </div>
     </form>
 
@@ -30,6 +29,7 @@
           maxlength="4"
           v-model="smscode"
         >
+        <p class="auth__error" v-if="error">{{ error }}</p>
       </div>
       <div class="auth__row auth__row_end">
         <button class="auth__btn" type="submit">Войти</button>
@@ -60,6 +60,11 @@ export default{
   },
   destroyed() {
     document.body.classList.remove('login');
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error;
+    },
   },
   methods: {
     onAccept(e) {

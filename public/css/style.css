@@ -1166,6 +1166,13 @@ textarea.warning {
     margin-bottom: 30px;
   }
 }
+.auth__error {
+  color: #e48585;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 18px;
+  margin-top: 13px;
+}
 .auth__row + .auth__row {
   margin-top: 18px;
 }

@@ -103,6 +103,7 @@ export default {
       infoOpen: false,
       burgerOpen: false,
       sideOpen: false,
+      getData: false,
       links: [{
         title: 'Объекты',
         href: '/objects',
@@ -147,11 +148,17 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getAllObjects', this.$store.getters.user.token);
+    if (this.isUserLoggedIn) {
+      this.$store.dispatch('getAllObjects', this.$store.getters.user.token);
+    }
   },
   watch: {
     $route() {
       this.$store.dispatch('setSideState', false);
+      if (!this.getData) {
+        this.$store.dispatch('getAllObjects', this.$store.getters.user.token);
+        this.getData = true;
+      }
     },
   },
 };

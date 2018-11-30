@@ -24,7 +24,12 @@ export default {
 
       try {
         await axios
-          .post(`${API_URL}/api/v2/sendSms/${phone}`);
+          .post(`${API_URL}/api/v2/sendSms/${phone}`)
+          .then(({ data }) => {
+            if (!data.success) {
+              commit('setError', data.message);
+            }
+          });
         commit('setLoading', false);
       } catch (e) {
         commit('setLoading', false);
