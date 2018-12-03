@@ -72,7 +72,12 @@
               class="users__item"
               v-for="responsible of object.responsibles"
               :key="responsible.id"
-            >{{ responsible.full_name }}</li>
+            >{{ responsible.full_name }}
+              <button class="users__item-edit" type="button" aria-label="Редактировать"></button>
+            </li>
+            <li class="users__item">
+              <button class="users__item-add" type="button">+ Добавить</button>
+            </li>
           </ul>
         </li>
       </ul>
