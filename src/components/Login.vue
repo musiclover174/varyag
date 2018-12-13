@@ -37,8 +37,8 @@
       </div>
     </form>
     <div class="sber__info">
-      <a href="/files/payment_instruction.rtf" class="link">Инструкция по оплате</a> |
-      <a href="/files/company_details.png" class="link">Реквизиты</a>
+      <a href="/files/payment_instruction.rtf" class="link" target="_blank">Инструкция по оплате</a> |
+      <a href="/files/company_details.png" class="link" target="_blank">Реквизиты</a>
     </div>
   </main>
 </template>
