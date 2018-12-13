@@ -1984,12 +1984,12 @@ textarea.warning {
     cursor: default;
 }
 
-.sber_info {
+.sber__info {
     text-align: center;
     margin-top: 10px;
     color: #757575;
 }
 
-.sber_info a.link {
+.sber__info a.link {
     border-bottom: 1px dotted;
 }
