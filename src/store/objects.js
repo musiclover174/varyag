@@ -24,7 +24,7 @@ export default {
     },
   },
   actions: {
-    async getAllObjects({ commit, state }, token) {
+    async getAllObjects({ commit, state, dispatch }, { token, router }) {
       if (state.objects.length) {
         return;
       }
@@ -51,13 +51,27 @@ export default {
                     object.contract.number,
                     object.contract.date,
                     object.address.Title,
-                    'ООО НПО Панцирь',
-                    'Пультовая охрана',
+                    object.client_name,
+                    object.contract.type,
                     object.name_by_user || object.name,
                     object.persons,
                   ),
                 );
               });
+            }
+          })
+          .catch(({ response }) => {
+            if (response.status === 403) {
+              commit('setLoading', false);
+              commit('setError', 'Авторизация устарела. Сейчас вы будете перенаправлены на страницу авторизации, чтобы актуализировать ваш профиль.');
+              setTimeout(() => {
+                commit('clearError');
+                dispatch('logoutUser');
+                router.push('/login');
+              }, 5000);
+            } else {
+              commit('setLoading', false);
+              commit('setError', response.statusText);
             }
           });
 

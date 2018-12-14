@@ -89,6 +89,13 @@
       </section>
     </header>
 
+    <section
+      class="snackbar"
+      :class="{ show: error }"
+    >
+      <p class="snackbar__text">{{ error }}</p>
+    </section>
+
     <main class="content" role="main">
       <router-view/>
     </main>
@@ -149,14 +156,20 @@ export default {
   },
   created() {
     if (this.isUserLoggedIn) {
-      this.$store.dispatch('getAllObjects', this.$store.getters.user.token);
+      this.$store.dispatch('getAllObjects', {
+        token: this.$store.getters.user.token,
+        router: this.$router,
+      });
     }
   },
   watch: {
     $route() {
       this.$store.dispatch('setSideState', false);
-      if (!this.getData) {
-        this.$store.dispatch('getAllObjects', this.$store.getters.user.token);
+      if (!this.getData && this.isUserLoggedIn) {
+        this.$store.dispatch('getAllObjects', {
+          token: this.$store.getters.user.token,
+          router: this.$router,
+        });
         this.getData = true;
       }
     },

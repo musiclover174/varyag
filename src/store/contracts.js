@@ -23,7 +23,7 @@ export default {
     },
   },
   actions: {
-    async getContracts({ commit, state }, token) {
+    async getContracts({ commit, state, dispatch }, { token, router }) {
       if (state.contracts.length) {
         return;
       }
@@ -55,6 +55,20 @@ export default {
                   ),
                 );
               });
+            }
+          })
+          .catch(({ response }) => {
+            if (response.status === 403) {
+              commit('setLoading', false);
+              commit('setError', 'Авторизация устарела. Сейчас вы будете перенаправлены на страницу авторизации, чтобы актуализировать ваш профиль.');
+              setTimeout(() => {
+                commit('clearError');
+                dispatch('logoutUser');
+                router.push('/login');
+              }, 5000);
+            } else {
+              commit('setLoading', false);
+              commit('setError', response.statusText);
             }
           });
 

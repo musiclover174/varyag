@@ -64,7 +64,10 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getContracts', this.$store.getters.user.token);
+    this.$store.dispatch('getContracts', {
+      token: this.$store.getters.user.token,
+      router: this.$router,
+    });
   },
   mounted() {
     this.$moment.locale('ru');

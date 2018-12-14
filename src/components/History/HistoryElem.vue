@@ -159,6 +159,7 @@ export default {
     this.$store.dispatch('getSignalsObjects', {
       token: this.$store.getters.user.token,
       objectId: this.id,
+      router: this.$router,
     });
   },
   watch: {
@@ -166,6 +167,7 @@ export default {
       this.$store.dispatch('getSignalsObjects', {
         token: this.$store.getters.user.token,
         objectId: this.id,
+        router: this.$router,
       });
       this.page = 1;
     },

@@ -1994,3 +1994,31 @@ textarea.warning {
     border-bottom: 1px dotted;
     color: #757575;
 }
+
+.snackbar{
+    position: fixed;
+    top: -120px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    transition: .7s top;
+    -webkit-transition: .7s top;
+}
+
+.snackbar.show{
+    top: 0;
+}
+
+.snackbar__text{
+    padding: 14px 24px;
+    background: #ffffff;
+    width: auto;
+    font-size: 15px;
+    line-height: 20px;
+    max-width: 568px;
+    min-width: 288px;
+    max-height: 100px;
+    margin: 0 auto;
+    border-radius: 2px;
+    box-shadow: 0px 3px 5px -1px rgba(0,0,0,0.2), 0px 6px 10px 0px rgba(0,0,0,0.14), 0px 1px 18px 0px rgba(0,0,0,0.12);
+}

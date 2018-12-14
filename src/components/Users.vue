@@ -92,7 +92,10 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getPersons', this.$store.getters.user.token);
+    this.$store.dispatch('getPersons', {
+      token: this.$store.getters.user.token,
+      router: this.$router,
+    });
   },
 };
 </script>

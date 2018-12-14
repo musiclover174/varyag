@@ -65,7 +65,6 @@ export default {
     logoutUser({ commit }) {
       localStorage.removeItem('user');
       commit('setUser', null);
-      this.$router.push('/login');
     },
   },
   getters: {

@@ -18,7 +18,7 @@ export default {
     },
   },
   actions: {
-    async getPersons({ commit, state }, token) {
+    async getPersons({ commit, state, dispatch }, { token, router }) {
       if (state.persons.length) {
         return;
       }
@@ -43,6 +43,20 @@ export default {
                   new Person(person.id, person.full_name),
                 );
               });
+            }
+          })
+          .catch(({ response }) => {
+            if (response.status === 403) {
+              commit('setLoading', false);
+              commit('setError', 'Авторизация устарела. Сейчас вы будете перенаправлены на страницу авторизации, чтобы актуализировать ваш профиль.');
+              setTimeout(() => {
+                commit('clearError');
+                dispatch('logoutUser');
+                router.push('/login');
+              }, 5000);
+            } else {
+              commit('setLoading', false);
+              commit('setError', response.statusText);
             }
           });
 

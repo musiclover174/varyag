@@ -45,7 +45,7 @@ export default {
     },
   },
   actions: {
-    async getSignalsObjects({ commit }, { token, objectId }) {
+    async getSignalsObjects({ commit, dispatch }, { token, objectId, router }) {
       commit('clearError');
       commit('setLoading', true);
 
@@ -94,6 +94,20 @@ export default {
                   });
                 }
               });
+          })
+          .catch(({ response }) => {
+            if (response.status === 403) {
+              commit('setLoading', false);
+              commit('setError', 'Авторизация устарела. Сейчас вы будете перенаправлены на страницу авторизации, чтобы актуализировать ваш профиль.');
+              setTimeout(() => {
+                commit('clearError');
+                dispatch('logoutUser');
+                router.push('/login');
+              }, 5000);
+            } else {
+              commit('setLoading', false);
+              commit('setError', response.statusText);
+            }
           });
 
         commit('loadSignals', resultObjs);
