@@ -36,66 +36,74 @@
         <a class="auth__forgot" href="#" v-on:click="phoneEnter = !phoneEnter">Другой номер?</a>
       </div>
     </form>
-    <div class="sber__info">
-      <a href="/files/payment_instruction.rtf" class="link" target="_blank">Инструкция по оплате</a> |
-      <a href="/files/company_details.png" class="link" target="_blank">Реквизиты</a>
+    <div class="auth__info">
+      <a
+        href="/files/payment_instruction.rtf"
+        class="auth__link"
+        target="_blank"
+      >Инструкция по оплате</a> |
+      <a
+        href="/files/company_details.png"
+        class="auth__link"
+        target="_blank"
+      >Реквизиты</a>
     </div>
   </main>
 </template>
 
 <script>
-  import {IMaskDirective} from 'vue-imask';
+import { IMaskDirective } from 'vue-imask';
 
-  export default {
-    data() {
-      return {
-        phone: '',
-        unMasked: '',
-        phoneEnter: false,
-        smscode: '',
-        mask: {
-          mask: '(000)000-00-00',
-          lazy: false,
-        },
-      };
-    },
-    created() {
-      document.body.classList.add('login');
-    },
-    destroyed() {
-      document.body.classList.remove('login');
-    },
-    computed: {
-      error() {
-        return this.$store.getters.error;
+export default {
+  data() {
+    return {
+      phone: '',
+      unMasked: '',
+      phoneEnter: false,
+      smscode: '',
+      mask: {
+        mask: '(000)000-00-00',
+        lazy: false,
       },
+    };
+  },
+  created() {
+    document.body.classList.add('login');
+  },
+  destroyed() {
+    document.body.classList.remove('login');
+  },
+  computed: {
+    error() {
+      return this.$store.getters.error;
     },
-    methods: {
-      onAccept(e) {
-        this.unMasked = e.detail.unmaskedValue;
-      },
-      checkPhone(e) {
-        if (this.unMasked.length === 10) {
-          this.$store.dispatch('sendSms', {
-            phone: this.unMasked,
-          });
-          this.phoneEnter = true;
-        }
-        e.preventDefault();
-      },
-      sendData(e) {
-        this.$store.dispatch('loginUser', {phone: this.unMasked, code: this.smscode})
-          .then(() => {
-            this.$router.push('/');
-          })
-          .catch(() => {
-          });
+  },
+  methods: {
+    onAccept(e) {
+      this.unMasked = e.detail.unmaskedValue;
+    },
+    checkPhone(e) {
+      if (this.unMasked.length === 10) {
+        this.$store.dispatch('sendSms', {
+          phone: this.unMasked,
+        });
+        this.phoneEnter = true;
+      }
+      e.preventDefault();
+    },
+    sendData(e) {
+      this.$store.dispatch('loginUser', { phone: this.unMasked, code: this.smscode })
+        .then(() => {
+          this.$router.push('/');
+        })
+        .catch(() => {
+        });
 
-        e.preventDefault();
-      },
+      e.preventDefault();
     },
-    directives: {
-      imask: IMaskDirective,
-    },
-  };
+  },
+  directives: {
+    imask: IMaskDirective,
+  },
+};
 </script>
