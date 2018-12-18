@@ -19,7 +19,10 @@
       <section class="header__info-hrefs">
         <ul class="header__info-hreflist">
           <li class="header__info-hrefitem">
-            <span class="header__info-href">Мой профиль</span>
+            <a href="#" class="header__info-href">
+              <i class="header__info-icon header__info-icon_personal"></i>
+              Мой профиль
+            </a>
           </li>
           <li class="header__info-hrefitem">
             <button class="header__info-logout" @click="onLogout">Выйти</button>

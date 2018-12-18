@@ -2165,6 +2165,22 @@ textarea.warning {
   margin-top: 4px;
 }
 
+.header__info-icon{
+  display: inline-block;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+
+.header__info-icon_personal{
+  width: 25px;
+  height: 17px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAMAAADjcdz2AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAM1BMVEXPztvPztvPztvPztvPztvPztvPztvPztvPztvPztvPztvPztvPztvPztvPztvPztv////4IjNzAAAAD3RSTlMAIohVRMzdM3fuqmYRu5kNWfx+AAAAAWJLR0QQlbINLAAAAAlwSFlzAAAAiQAAAIkBOZtwtgAAAAd0SU1FB+IMEg0SCjhBaKIAAAB+SURBVBjTVU9JAsQgCEOQiojy/98WWzs6ORjWEAEmEhL8IbPjddaKVK+yc3FG1Mrpy2ubZFrtnfe2Ol0f0v6T8hIvXVuNh0V1JGixZGggrJC9GbAboBPkuY5xI+WYCGPcy9Z+RPMkeum4p8uifJ2wOIik17Y/w+6XJjhgtoIbEagD3wk47uUAAAAASUVORK5CYII=');
+  margin-top: -4px;
+  transition: .7s background-image;
+  -webkit-transition: .7s background-image;
+}
+
 .header__info-hrefs{
   padding: 20px;
 }
@@ -2174,6 +2190,16 @@ textarea.warning {
   display:block;
   font-size: 0.9375rem;
   color: black;
+  transition: .7s color;
+  -webkit-transition: .7s color;
+}
+
+.header__info-href:hover{
+  color: #e6333a;
+}
+
+.header__info-href:hover .header__info-icon_personal{
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAARCAMAAADjcdz2AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAM1BMVEXmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzrmMzr///9Uw6YPAAAAD3RSTlMAIohVRMzdM3fuqmYRu5kNWfx+AAAAAWJLR0QQlbINLAAAAAlwSFlzAAAAiQAAAIkBOZtwtgAAAAd0SU1FB+IMEg0ZA6JpCc0AAAB+SURBVBjTVU9JAsQgCEOQiojy/98WWzs6ORjWEAEmEhL8IbPjddaKVK+yc3FG1Mrpy2ubZFrtnfe2Ol0f0v6T8hIvXVuNh0V1JGixZGggrJC9GbAboBPkuY5xI+WYCGPcy9Z+RPMkeum4p8uifJ2wOIik17Y/w+6XJjhgtoIbEagD3wk47uUAAAAASUVORK5CYII=');
 }
 
 .header__info-logout{
@@ -2186,11 +2212,12 @@ textarea.warning {
   font-size: 0.9375rem;
   color: black;
   cursor: pointer;
-  transition: .7s border, .7s background;
-  -webkit-transition: .7s border, .7s background;
+  transition: .7s border, .7s background, .7s color;
+  -webkit-transition: .7s border, .7s background, .7s color;
 }
 
 .header__info-logout:hover{
   border-color: #ebedf2;
   background-color: #f4f5f8;
+  color: #e6333a;
 }
