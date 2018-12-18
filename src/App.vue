@@ -30,7 +30,7 @@
             </aside>
           </div>
           <div class="header__topbar">
-            <span class="header__greetings">Здравствуйте, <i>{{ userName }}</i></span>
+            <addUserInfo :user="user"></addUserInfo>
             <a class="header__notification header__notification_notice" href="#"></a>
             <a class="header__messages" href="#"></a>
           </div>
@@ -104,6 +104,8 @@
 </template>
 
 <script>
+import UserInfo from './components/UserInfo.vue';
+
 export default {
   data() {
     return {
@@ -147,8 +149,8 @@ export default {
     isUserLoggedIn() {
       return this.$store.getters.isUserLoggedIn;
     },
-    userName() {
-      return this.$store.getters.user.name.split(' ')[1];
+    user() {
+      return this.$store.getters.user;
     },
     sideFlag() {
       return this.$store.getters.sideOpen;
@@ -162,6 +164,25 @@ export default {
       });
     }
   },
+  mounted() {
+    const elHeaderClassList = document.querySelector('.header').classList;
+    let lastScrollTop = 0;
+    let curOffset;
+
+    window.addEventListener('scroll', () => {
+      curOffset = window.pageYOffset;
+
+      if (window.pageYOffset > 200 && curOffset > lastScrollTop) {
+        if (!elHeaderClassList.contains('shorten')) {
+          elHeaderClassList.add('shorten');
+        }
+      } else if (elHeaderClassList.contains('shorten')) {
+        elHeaderClassList.remove('shorten');
+      }
+
+      lastScrollTop = curOffset;
+    });
+  },
   watch: {
     $route() {
       this.$store.dispatch('setSideState', false);
@@ -173,6 +194,9 @@ export default {
         this.getData = true;
       }
     },
+  },
+  components: {
+    addUserInfo: UserInfo,
   },
 };
 </script>
