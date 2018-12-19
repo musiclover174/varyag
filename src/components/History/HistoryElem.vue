@@ -102,24 +102,36 @@
             v-if="totalPages > 1 && !loading"
           >
             <button
+              class="pagination__more"
+              v-if="page !== totalPages"
+              @click="onWantMore"
+            >Показать еще</button>
+
+            <button
               class="pagination__prev"
               :disabled="page === 1"
-              @click="page--"
+              @click="changePage(--page)"
             >Назад</button>
+
             <ul class="pagination__list">
-              <li class="pagination__item" v-for="navPage of pages" :key="navPage.name">
+              <li
+                class="pagination__item"
+                v-for="navPage of pages"
+                :key="navPage.name"
+              >
                 <a
                   href="#"
                   class="pagination__href"
                   :class="{ active: navPage.isDisabled}"
-                  @click.prevent="page = navPage.name"
+                  @click.prevent="changePage(navPage.name)"
                 >{{ navPage.name }}</a>
               </li>
             </ul>
+
             <button
               class="pagination__next"
               :disabled="page === totalPages"
-              @click="page++"
+              @click="changePage(++page)"
             >Вперед</button>
           </div>
         </div>
@@ -138,16 +150,29 @@ export default {
       breadcrumbList: this.$route.meta.breadcrumb,
       signalsPerPage: 20,
       page: Number(this.$route.query.page) || 1,
+      moreButtonPage: Number(this.$route.query.page) || 1,
     };
   },
   methods: {
     sideClose() {
       this.$store.dispatch('setSideState', false);
     },
+    changePage(page) {
+      this.page = page;
+      this.moreButtonPage = page;
+      this.signalsPerPage = 20;
+    },
+    onWantMore() {
+      this.signalsPerPage += 20;
+      this.page += 1;
+    },
   },
   computed: {
     signals() {
-      return this.$store.getters.signals(this.signalsPerPage, this.page - 1);
+      return this.$store.getters.signals(
+        this.signalsPerPage,
+        Math.min(this.page - 1, this.moreButtonPage - 1),
+      );
     },
     loading() {
       return this.$store.getters.loading;
@@ -156,7 +181,7 @@ export default {
       return this.$store.getters.signalsCount;
     },
     totalPages() {
-      return Math.ceil(this.signalsCount / this.signalsPerPage);
+      return Math.ceil(this.signalsCount / 20);
     },
     pages() {
       const range = [];
@@ -197,6 +222,7 @@ export default {
         router: this.$router,
       });
       this.page = 1;
+      this.moreButtonPage = 1;
     },
   },
 };

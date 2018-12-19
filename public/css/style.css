@@ -2073,6 +2073,19 @@ textarea.warning {
   color: white;
 }
 
+.pagination__more{
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  color: #303236;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 2.275rem;
+  border-bottom: 1px solid lightgrey;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
 .auth__info {
   text-align: center;
   margin-top: 10px;

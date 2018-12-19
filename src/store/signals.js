@@ -122,7 +122,7 @@ export default {
   getters: {
     signals: state => (pageCount, page = 0) => {
       const signalsObjects = {};
-      const signalsMass = state.signals.slice(page * pageCount, pageCount * (page + 1));
+      const signalsMass = state.signals.slice(page * 20, page * 20 + pageCount);
 
       signalsMass.forEach((signal) => {
         if (!signalsObjects[signal.day]) signalsObjects[signal.day] = [];
