@@ -224,6 +224,7 @@ export default {
         router: this.$router,
       });
       this.page = 1;
+      this.moreButtonPage = 1;
     },
   },
 };
