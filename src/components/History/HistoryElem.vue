@@ -98,19 +98,29 @@
             </li>
           </ul>
           <div
-            class="history__buttons"
-            v-if="Math.ceil(signalsCount / signalsPerPage) > 1 && !loading"
+            class="pagination__buttons"
+            v-if="totalPages > 1 && !loading"
           >
             <button
-              class="history__prev"
+              class="pagination__prev"
               :disabled="page === 1"
               @click="page--"
-            >Предыдущая</button>
+            >Назад</button>
+            <ul class="pagination__list">
+              <li class="pagination__item" v-for="navPage of pages" :key="navPage.name">
+                <a
+                  href="#"
+                  class="pagination__href"
+                  :class="{ active: navPage.isDisabled}"
+                  @click.prevent="page = navPage.name"
+                >{{ navPage.name }}</a>
+              </li>
+            </ul>
             <button
-              class="history__next"
-              :disabled="page === Math.ceil(signalsCount / signalsPerPage)"
+              class="pagination__next"
+              :disabled="page === totalPages"
               @click="page++"
-            >Следующая</button>
+            >Вперед</button>
           </div>
         </div>
         <p class="history__enough" v-else>По этому объекту сигналов не поступало</p>
@@ -144,6 +154,23 @@ export default {
     },
     signalsCount() {
       return this.$store.getters.signalsCount;
+    },
+    totalPages() {
+      return Math.ceil(this.signalsCount / this.signalsPerPage);
+    },
+    pages() {
+      const range = [];
+
+      for (let i = Math.max(1, this.page - 2);
+        i <= Math.min(this.page + 2, this.totalPages);
+        i += 1) {
+        range.push({
+          name: i,
+          isDisabled: i === this.page,
+        });
+      }
+
+      return range;
     },
     objects() {
       return this.$store.getters.objects;
