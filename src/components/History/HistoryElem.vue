@@ -161,10 +161,12 @@ export default {
       this.page = page;
       this.moreButtonPage = page;
       this.signalsPerPage = 20;
+      this.$router.replace({ query: { page: this.page } });
     },
     onWantMore() {
       this.signalsPerPage += 20;
       this.page += 1;
+      this.$router.replace({ query: { page: this.page } });
     },
   },
   computed: {
@@ -215,14 +217,13 @@ export default {
     });
   },
   watch: {
-    $route() {
+    id() {
       this.$store.dispatch('getSignalsObjects', {
         token: this.$store.getters.user.token,
         objectId: this.id,
         router: this.$router,
       });
       this.page = 1;
-      this.moreButtonPage = 1;
     },
   },
 };
