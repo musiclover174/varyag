@@ -178,6 +178,7 @@ export default {
   computed: {
     signals() {
       return this.$store.getters.signals(
+        this.id,
         this.signalsPerPage,
         Math.min(this.page - 1, this.moreButtonPage - 1),
       );
@@ -231,7 +232,6 @@ export default {
   },
   watch: {
     id() {
-      this.$store.dispatch('clearSignalsObjects');
       this.$store.dispatch('getSignalsObjects', {
         token: this.$store.getters.user.token,
         objectId: this.id,

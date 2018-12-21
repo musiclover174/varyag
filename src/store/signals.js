@@ -31,6 +31,28 @@ function formatTime(date) {
   return `${hh}:${mm}`;
 }
 
+function isObject(item) {
+  return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+function mergeDeep(target, ...sources) {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+
+  return mergeDeep(target, ...sources);
+}
+
 export default {
   state: {
     signals: {},
@@ -38,7 +60,7 @@ export default {
   },
   mutations: {
     loadSignals(state, payload) {
-      state.signals = Object.assign({}, state.signals, payload);
+      state.signals = Object.assign({}, mergeDeep(state.signals, payload));
     },
     setSignalsCount(state, payload) {
       state.count = payload;
@@ -90,7 +112,7 @@ export default {
     async getSignalsObjects({ commit, state }, {
       token, objectId, offset, limit,
     }) {
-      if (state.signals[offset]) return;
+      if (state.signals[objectId] && state.signals[objectId][offset]) return;
 
       commit('clearError');
       commit('setLoading', true);
@@ -137,7 +159,9 @@ export default {
           });
 
         commit('loadSignals', {
-          [offset]: resultObjs,
+          [objectId]: {
+            [offset]: resultObjs,
+          },
         });
         commit('setLoading', false);
       } catch (e) {
@@ -151,15 +175,17 @@ export default {
     },
   },
   getters: {
-    signals: state => (pageCount, page = 0) => {
+    signals: state => (objectId, pageCount, page = 0) => {
       const signalsObjects = {};
-      const signalsMass = state.signals[pageCount * page] || [];
 
-      signalsMass.forEach((signal) => {
-        if (!signalsObjects[signal.day]) signalsObjects[signal.day] = [];
-        signalsObjects[signal.day].push(signal);
-      });
+      if (state.signals[objectId]) {
+        const signalsMass = state.signals[objectId][pageCount * page] || [];
 
+        signalsMass.forEach((signal) => {
+          if (!signalsObjects[signal.day]) signalsObjects[signal.day] = [];
+          signalsObjects[signal.day].push(signal);
+        });
+      }
       return signalsObjects;
     },
     signalsCount: state => state.count,
