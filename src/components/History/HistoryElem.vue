@@ -101,11 +101,11 @@
             class="pagination__buttons"
             v-if="totalPages > 1 && !loading"
           >
-            <button
+            <!--<button
               class="pagination__more"
               v-if="page !== totalPages"
               @click="onWantMore"
-            >Показать еще</button>
+            >Показать еще</button>-->
 
             <button
               class="pagination__prev"
@@ -160,13 +160,19 @@ export default {
     changePage(page) {
       this.page = page;
       this.moreButtonPage = page;
-      this.signalsPerPage = 20;
+      // this.signalsPerPage = 20;
       this.$router.replace({ query: { page: this.page } });
+      this.$store.dispatch('getSignalsObjects', {
+        token: this.$store.getters.user.token,
+        objectId: this.id,
+        offset: (page - 1) * this.signalsPerPage,
+        limit: this.signalsPerPage,
+      });
     },
     onWantMore() {
-      this.signalsPerPage += 20;
-      this.page += 1;
-      this.$router.replace({ query: { page: this.page } });
+      // this.signalsPerPage += 20;
+      // this.page += 1;
+      // this.$router.replace({ query: { page: this.page } });
     },
   },
   computed: {
@@ -183,7 +189,7 @@ export default {
       return this.$store.getters.signalsCount;
     },
     totalPages() {
-      return Math.ceil(this.signalsCount / 20);
+      return Math.ceil(this.signalsCount / this.signalsPerPage);
     },
     pages() {
       const range = [];
@@ -210,22 +216,30 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getSignalsObjects', {
+    this.$store.dispatch('getSignalsCountObjects', {
       token: this.$store.getters.user.token,
       objectId: this.id,
       router: this.$router,
-    });
-  },
-  watch: {
-    id() {
+    }).then(() => {
       this.$store.dispatch('getSignalsObjects', {
         token: this.$store.getters.user.token,
         objectId: this.id,
-        router: this.$router,
+        offset: (this.page - 1) * this.signalsPerPage,
+        limit: this.signalsPerPage,
       });
-      this.page = 1;
-      this.moreButtonPage = 1;
-    },
+    });
   },
+  // watch: {
+  //   id() {
+  //     this.$store.dispatch('getSignalsObjects', {
+  //       token: this.$store.getters.user.token,
+  //       objectId: this.id,
+  //       offset: 0,
+  //       router: this.$router,
+  //     });
+  //     this.page = 1;
+  //     this.moreButtonPage = 1;
+  //   },
+  // },
 };
 </script>

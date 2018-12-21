@@ -33,67 +33,33 @@ function formatTime(date) {
 
 export default {
   state: {
-    signals: [],
+    signals: {},
     count: 0,
   },
   mutations: {
     loadSignals(state, payload) {
-      state.signals = payload;
+      state.signals = Object.assign({}, state.signals, payload);
     },
     setSignalsCount(state, payload) {
       state.count = payload;
     },
   },
   actions: {
-    async getSignalsObjects({ commit, dispatch }, { token, objectId, router }) {
+    async getSignalsCountObjects({ commit, dispatch }, { token, objectId, router }) {
       commit('clearError');
       commit('setLoading', true);
 
-      const resultObjs = [];
       const headers = {
         headers: {
           Authorization: token,
         },
       };
-      const cDate = new Date();
-      const tDate = formatDate(cDate);
-      cDate.setDate(cDate.getDate() - 1);
-      const yDate = formatDate(cDate);
 
       try {
         await axios
           .post(`${API_URL}/api/v2/getObjectInfo/${objectId}`, null, headers)
-          .then(async (response) => {
+          .then((response) => {
             commit('setSignalsCount', response.data.signal_count);
-
-            await axios
-              .post(`${API_URL}/api/v2/getSignals`, {
-                object_number: objectId,
-                offset: 0,
-                limit: response.data.signal_count,
-              }, headers)
-              .then(async ({ data }) => {
-                if (data.signals) {
-                  data.signals.forEach((signal) => {
-                    const date = new Date();
-                    date.setTime(signal.time);
-
-                    let finalDate = formatDate(date);
-
-                    if (tDate === finalDate) finalDate = 'Сегодня';
-                    if (yDate === finalDate) finalDate = 'Вчера';
-
-                    resultObjs.push(
-                      new Signal(
-                        signal.signal_id,
-                        signal.title,
-                        finalDate,
-                        formatTime(date),
-                      ),
-                    );
-                  });
-                }
-              });
           })
           .catch(({ response }) => {
             if (response.status === 403) {
@@ -111,8 +77,65 @@ export default {
               commit('clearError');
             }, 5000);
           });
+        commit('setLoading', false);
+      } catch (e) {
+        commit('setLoading', false);
+        commit('setError', e.message);
+        throw e;
+      }
+    },
+    async getSignalsObjects({ commit, state }, {
+      token, objectId, offset, limit,
+    }) {
+      if (state.signals[offset]) return;
 
-        commit('loadSignals', resultObjs);
+      commit('clearError');
+      commit('setLoading', true);
+
+      const resultObjs = [];
+      const headers = {
+        headers: {
+          Authorization: token,
+        },
+      };
+      const cDate = new Date();
+      const tDate = formatDate(cDate);
+      cDate.setDate(cDate.getDate() - 1);
+      const yDate = formatDate(cDate);
+
+      try {
+        await axios
+          .post(`${API_URL}/api/v2/getSignals`, {
+            object_number: objectId,
+            offset,
+            limit,
+          }, headers)
+          .then(({ data }) => {
+            if (data.signals) {
+              data.signals.forEach((signal) => {
+                const date = new Date();
+                date.setTime(signal.time);
+
+                let finalDate = formatDate(date);
+
+                if (tDate === finalDate) finalDate = 'Сегодня';
+                if (yDate === finalDate) finalDate = 'Вчера';
+
+                resultObjs.push(
+                  new Signal(
+                    signal.signal_id,
+                    signal.title,
+                    finalDate,
+                    formatTime(date),
+                  ),
+                );
+              });
+            }
+          });
+
+        commit('loadSignals', {
+          [offset]: resultObjs,
+        });
         commit('setLoading', false);
       } catch (e) {
         commit('setLoading', false);
@@ -124,7 +147,7 @@ export default {
   getters: {
     signals: state => (pageCount, page = 0) => {
       const signalsObjects = {};
-      const signalsMass = state.signals.slice(page * 20, page * 20 + pageCount);
+      const signalsMass = state.signals[pageCount * page] || [];
 
       signalsMass.forEach((signal) => {
         if (!signalsObjects[signal.day]) signalsObjects[signal.day] = [];
