@@ -100,7 +100,6 @@ export default {
               commit('setLoading', false);
               commit('setError', 'Авторизация устарела. Сейчас вы будете перенаправлены на страницу авторизации, чтобы актуализировать ваш профиль.');
               setTimeout(() => {
-                commit('clearError');
                 dispatch('logoutUser');
                 router.push('/login');
               }, 5000);
@@ -108,6 +107,9 @@ export default {
               commit('setLoading', false);
               commit('setError', response.statusText);
             }
+            setTimeout(() => {
+              commit('clearError');
+            }, 5000);
           });
 
         commit('loadSignals', resultObjs);
