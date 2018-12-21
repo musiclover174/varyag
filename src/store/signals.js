@@ -175,11 +175,18 @@ export default {
     },
   },
   getters: {
-    signals: state => (objectId, pageCount, page = 0) => {
+    signals: state => (objectId, pageCount, page = 0, morePage = 0) => {
       const signalsObjects = {};
 
       if (state.signals[objectId]) {
-        const signalsMass = state.signals[objectId][pageCount * page] || [];
+        let signalsMass = [];
+        if (page === morePage) {
+          signalsMass = state.signals[objectId][pageCount * page] || [];
+        } else {
+          for (let i = morePage; i <= page; i++) {
+            signalsMass = signalsMass.concat(state.signals[objectId][pageCount * i] || []);
+          }
+        }
 
         signalsMass.forEach((signal) => {
           if (!signalsObjects[signal.day]) signalsObjects[signal.day] = [];

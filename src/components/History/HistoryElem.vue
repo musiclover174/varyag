@@ -101,11 +101,11 @@
             class="pagination__buttons"
             v-if="totalPages > 1 && !loading"
           >
-            <!--<button
+            <button
               class="pagination__more"
               v-if="page !== totalPages"
               @click="onWantMore"
-            >Показать еще</button>-->
+            >Показать еще</button>
 
             <button
               class="pagination__prev"
@@ -160,7 +160,6 @@ export default {
     changePage(page) {
       this.page = page;
       this.moreButtonPage = page;
-      // this.signalsPerPage = 20;
       this.$router.replace({ query: { page: this.page } });
       this.$store.dispatch('getSignalsObjects', {
         token: this.$store.getters.user.token,
@@ -170,9 +169,15 @@ export default {
       });
     },
     onWantMore() {
-      // this.signalsPerPage += 20;
-      // this.page += 1;
-      // this.$router.replace({ query: { page: this.page } });
+      this.page += 1;
+      console.log(this.moreButtonPage);
+      this.$router.replace({ query: { page: this.page } });
+      this.$store.dispatch('getSignalsObjects', {
+        token: this.$store.getters.user.token,
+        objectId: this.id,
+        offset: (this.page - 1) * this.signalsPerPage,
+        limit: this.signalsPerPage,
+      });
     },
   },
   computed: {
@@ -180,7 +185,8 @@ export default {
       return this.$store.getters.signals(
         this.id,
         this.signalsPerPage,
-        Math.min(this.page - 1, this.moreButtonPage - 1),
+        this.page - 1,
+        this.moreButtonPage - 1,
       );
     },
     loading() {
