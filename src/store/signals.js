@@ -43,6 +43,9 @@ export default {
     setSignalsCount(state, payload) {
       state.count = payload;
     },
+    clearSignals(state) {
+      state.signals = Object.assign({});
+    },
   },
   actions: {
     async getSignalsCountObjects({ commit, dispatch }, { token, objectId, router }) {
@@ -142,6 +145,9 @@ export default {
         commit('setError', e.message);
         throw e;
       }
+    },
+    clearSignalsObjects({ commit }) {
+      commit('clearSignals');
     },
   },
   getters: {

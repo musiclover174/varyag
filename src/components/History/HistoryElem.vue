@@ -229,17 +229,19 @@ export default {
       });
     });
   },
-  // watch: {
-  //   id() {
-  //     this.$store.dispatch('getSignalsObjects', {
-  //       token: this.$store.getters.user.token,
-  //       objectId: this.id,
-  //       offset: 0,
-  //       router: this.$router,
-  //     });
-  //     this.page = 1;
-  //     this.moreButtonPage = 1;
-  //   },
-  // },
+  watch: {
+    id() {
+      this.$store.dispatch('clearSignalsObjects');
+      this.$store.dispatch('getSignalsObjects', {
+        token: this.$store.getters.user.token,
+        objectId: this.id,
+        offset: 0,
+        router: this.$router,
+        limit: this.signalsPerPage,
+      });
+      this.page = 1;
+      this.moreButtonPage = 1;
+    },
+  },
 };
 </script>
