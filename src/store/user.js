@@ -2,9 +2,10 @@ import axios from 'axios';
 import API_URL from './constants';
 
 class User {
-  constructor(token, name) {
+  constructor(token, name, phone) {
     this.token = token;
     this.name = name;
+    this.phone = phone;
   }
 }
 
@@ -48,7 +49,7 @@ export default {
             smscode: code,
           })
           .then(({ data }) => {
-            const user = new User(data.token, data.full_name);
+            const user = new User(data.token, data.full_name, phone);
             localStorage.setItem('user', JSON.stringify(user));
             commit('setUser', user);
             commit('setLoading', false);
@@ -59,8 +60,8 @@ export default {
         throw e;
       }
     },
-    autoLoginUser({ commit }, { token, name }) {
-      commit('setUser', new User(token, name));
+    autoLoginUser({ commit }, { token, name, phone }) {
+      commit('setUser', new User(token, name, phone));
     },
     logoutUser({ commit }) {
       localStorage.removeItem('user');

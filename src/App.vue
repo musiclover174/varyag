@@ -165,22 +165,25 @@ export default {
     }
   },
   mounted() {
-    const elHeaderClassList = document.querySelector('.header').classList;
+    let elHeaderClassList;
     let lastScrollTop = 0;
     let curOffset;
 
     window.addEventListener('scroll', () => {
       curOffset = window.pageYOffset;
 
-      if (window.pageYOffset > 200 && curOffset > lastScrollTop) {
-        if (!elHeaderClassList.contains('shorten')) {
-          elHeaderClassList.add('shorten');
+      if (document.querySelector('.header')) {
+        elHeaderClassList = document.querySelector('.header').classList;
+        if (window.pageYOffset > 200 && curOffset > lastScrollTop) {
+          if (!elHeaderClassList.contains('shorten')) {
+            elHeaderClassList.add('shorten');
+          }
+        } else if (elHeaderClassList.contains('shorten')) {
+          elHeaderClassList.remove('shorten');
         }
-      } else if (elHeaderClassList.contains('shorten')) {
-        elHeaderClassList.remove('shorten');
-      }
 
-      lastScrollTop = curOffset;
+        lastScrollTop = curOffset;
+      }
     });
   },
   watch: {

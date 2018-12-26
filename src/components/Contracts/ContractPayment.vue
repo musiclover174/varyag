@@ -88,12 +88,21 @@
             <button
               type="submit"
               class="contract__payment-sbm"
-              @click="wantPay"
+              @click.prevent="wantPay"
             >Оплатить</button>
           </form>
         </section>
       </section>
     </div>
+
+    <transition name="fade">
+      <div v-if="showModal" class="modal" v-cloak>
+        <div class="modal__inner">
+          <i class="modal__icon" data-type="cog"></i>
+          Пожалуйста, подождите
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -119,7 +128,19 @@ export default {
     sideClose() {
       this.$store.dispatch('setSideState', false);
     },
-    wantPay() {},
+    wantPay() {
+      const contractsArray = [];
+      contractsArray.push(this.contract.id);
+
+      this.$store.dispatch('setPaymentStart', {
+        summa: this.money,
+        email: '',
+        phone: this.user.phone,
+        s: '1',
+        contractIds: contractsArray,
+        id: this.id,
+      });
+    },
   },
   computed: {
     contract() {
@@ -127,6 +148,12 @@ export default {
     },
     contracts() {
       return this.$store.getters.contracts;
+    },
+    user() {
+      return this.$store.getters.user;
+    },
+    showModal() {
+      return this.$store.getters.showModal;
     },
     objects() {
       const objects = this.$store.getters.getObjectsByContract(this.id);

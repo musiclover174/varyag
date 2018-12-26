@@ -16,13 +16,68 @@ class Contract {
 export default {
   state: {
     contracts: [],
+    modalWaiter: false,
   },
   mutations: {
     loadContracts(state, payload) {
       state.contracts = payload;
     },
+    showModalWaiter(state, payload) {
+      state.modalWaiter = payload;
+    },
   },
   actions: {
+    async setPaymentStart({ commit }, {
+      summa,
+      email,
+      phone,
+      s,
+      contractIds,
+      id,
+    }) {
+      commit('clearError');
+      commit('showModalWaiter', true);
+
+      try {
+        await axios
+          .post(`${API_URL}/api/v2/acquiring/DoPayment`, {
+            summa,
+            email,
+            phone,
+            s,
+            contract_ids: contractIds,
+          }).then(({ data }) => {
+            let requestCounter = 0;
+
+            function statusChecker(orderId) {
+              axios
+                .post(`${API_URL}/api/v2/acquiring/CheckPayment `, {
+                  orderId,
+                }).then((response) => {
+                  if (response.data.status !== 0) {
+                    requestCounter += 1;
+                    if (requestCounter < 4) {
+                      setTimeout(statusChecker, 3000, orderId);
+                    } else {
+                      commit('showModalWaiter', false);
+                      window.location.href = `/contracts/${id}/payment/fail`;
+                    }
+                  } else {
+                    commit('showModalWaiter', false);
+                    window.location.href = response.data.formUrl;
+                  }
+                }).catch((e) => {
+                  throw e;
+                });
+            }
+
+            statusChecker(data.orderId);
+          });
+      } catch (e) {
+        commit('setError', e.message);
+        throw e;
+      }
+    },
     async getContracts({ commit, state, dispatch }, { token, router }) {
       if (state.contracts.length) {
         return;
@@ -83,6 +138,7 @@ export default {
   },
   getters: {
     contracts: state => state.contracts,
+    showModal: state => state.modalWaiter,
     getContractById: state => number => state.contracts.find(cont => cont.number === number),
   },
 };

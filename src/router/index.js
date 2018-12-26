@@ -11,6 +11,7 @@ import Users from '@/components/Users.vue';
 import Contracts from '@/components/Contracts/Contracts.vue';
 import Contract from '@/components/Contracts/Contract.vue';
 import ContractPayment from '@/components/Contracts/ContractPayment.vue';
+import contractPaymentResult from '@/components/Contracts/ContractPaymentResult.vue';
 
 Vue.use(Router);
 
@@ -52,6 +53,13 @@ export default new Router({
           { name: 'Договоры', link: 'contracts' },
         ],
       },
+    },
+    {
+      path: '/contracts/:id/payment/:result',
+      props: true,
+      name: 'contractPaymentResult',
+      component: contractPaymentResult,
+      beforeEnter: AuthGuard,
     },
     {
       path: '/objects/history',
