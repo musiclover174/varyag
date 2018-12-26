@@ -20,7 +20,6 @@
               :to="'/contracts/' + contract.number"
               class="content__side-href"
               active-class="active"
-              exact
             >
               № {{ contract.number }} от {{ contract.date | moment("Do MMMM YYYY")}} г.
             </router-link>
@@ -32,7 +31,7 @@
 
     <div class="content__main">
       <section class="top">
-        <h1 class="top__title">Договор</h1>
+        <h1 class="top__title">Оплата</h1>
         <div class="breadcrumbs" v-if="breadcrumbList.length && contract">
           <router-link
             to="/"
@@ -44,43 +43,54 @@
             :to="'/' + breadcrumb.link"
             :key="idx"
           >{{ breadcrumb.name }}</router-link>
-          <span class="breadcrumbs__item">№ {{ contract.number }}</span>
+          <router-link
+            class="breadcrumbs__item"
+            :to="'/contracts/' + contract.number"
+          >№ {{ contract.number }}</router-link>
+          <span class="breadcrumbs__item">Оплата</span>
         </div>
       </section>
 
       <section class="inner">
         <section class="contract" v-if="contract">
-          <div class="contract__top">
-            <div class="contract__about">
-              <p class="contract__about-number">№ {{ contract.number }}</p>
-              <p class="contract__about-from">от {{ contract.date | moment("Do MMMM YYYY")}} г.</p>
-            </div>
-            <div class="contract__balance">
-              Баланс: <span>{{ contract.balance | digiter }} р.</span>
-            </div>
-            <router-link
-              :to="'/contracts/' + contract.number + '/payment'"
-              class="contract__pay"
-            >
-              Оплатить
-            </router-link>
+          <p class="contract__payment-top">По договору:
+            <span>№ {{ contract.number }} от {{ contract.date | moment("Do MMMM YYYY")}} г.</span>
+          </p>
+
+          <div class="contract__payment-info">
+            <p
+              class="contract__payment-info-elem"
+              v-if="objects"
+            >{{ objects }}</p>
+            <p
+              class="contract__payment-info-elem"
+              v-if="contract.type"
+            >{{ contract.type }}</p>
+            <p
+              class="contract__payment-info-elem"
+              v-if="contract.payment"
+            >{{ contract.payment }}</p>
+            <p
+              class="contract__payment-info-elem"
+              v-if="contract.recommend"
+            >{{ contract.recommend }}</p>
           </div>
-          <div class="contract__info">
-            <div class="contract__info-row">Контрагент: {{ contract.client }}</div>
-            <div class="contract__info-row">Вид услуг: {{ contract.type }}</div>
-            <div class="contract__info-row" v-if="objects">Перечень объектов:
-              <ul class="contract__list">
-                <li
-                  class="contract__item"
-                  v-for="object of objects"
-                  :key="object.id"
-                >
-                  <p class="contract__name">{{ object.name }}</p>
-                  <p class="contract__addres">{{ object.address }}</p>
-                </li>
-              </ul>
+
+          <form class="contract__payment-form">
+            <label class="contract__payment-label">Сумма:</label>
+            <div class="contract__payment-inpover">
+              <input
+                class="contract__payment-input"
+                type="number"
+                v-model="money"
+              >
             </div>
-          </div>
+            <button
+              type="submit"
+              class="contract__payment-sbm"
+              @click="wantPay"
+            >Оплатить</button>
+          </form>
         </section>
       </section>
     </div>
@@ -102,12 +112,14 @@ export default {
   data() {
     return {
       breadcrumbList: this.$route.meta.breadcrumb,
+      money: '',
     };
   },
   methods: {
     sideClose() {
       this.$store.dispatch('setSideState', false);
     },
+    wantPay() {},
   },
   computed: {
     contract() {
@@ -117,7 +129,23 @@ export default {
       return this.$store.getters.contracts;
     },
     objects() {
-      return this.$store.getters.getObjectsByContract(this.id);
+      const objects = this.$store.getters.getObjectsByContract(this.id);
+      let objectsInfo = '';
+
+      if (objects.length) {
+        if (objects.length > 3) {
+          let ender = '';
+          if (objects.length - 2 === 2) ender = 'а';
+          if (objects.length - 2 > 2) ender = 'ов';
+
+          objectsInfo = `${objects[0].name};${objects[1].name};и еще ${objects.length - 2} объект${ender}`;
+        } else {
+          objects.forEach((object) => {
+            objectsInfo += `${object.name};`;
+          });
+        }
+      }
+      return objectsInfo;
     },
     sideFlag() {
       return this.$store.getters.sideOpen;

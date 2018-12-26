@@ -40,14 +40,14 @@ function mergeDeep(target, ...sources) {
   const source = sources.shift();
 
   if (isObject(target) && isObject(source)) {
-    for (const key in source) {
+    Object.keys(source).forEach((key) => {
       if (isObject(source[key])) {
         if (!target[key]) Object.assign(target, { [key]: {} });
         mergeDeep(target[key], source[key]);
       } else {
         Object.assign(target, { [key]: source[key] });
       }
-    }
+    });
   }
 
   return mergeDeep(target, ...sources);
@@ -183,7 +183,7 @@ export default {
         if (page === morePage) {
           signalsMass = state.signals[objectId][pageCount * page] || [];
         } else {
-          for (let i = morePage; i <= page; i++) {
+          for (let i = morePage; i <= page; i += 1) {
             signalsMass = signalsMass.concat(state.signals[objectId][pageCount * i] || []);
           }
         }

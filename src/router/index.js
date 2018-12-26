@@ -10,6 +10,7 @@ import Responsible from '@/components/Responsible.vue';
 import Users from '@/components/Users.vue';
 import Contracts from '@/components/Contracts/Contracts.vue';
 import Contract from '@/components/Contracts/Contract.vue';
+import ContractPayment from '@/components/Contracts/ContractPayment.vue';
 
 Vue.use(Router);
 
@@ -33,6 +34,18 @@ export default new Router({
       props: true,
       name: 'contract',
       component: Contract,
+      beforeEnter: AuthGuard,
+      meta: {
+        breadcrumb: [
+          { name: 'Договоры', link: 'contracts' },
+        ],
+      },
+    },
+    {
+      path: '/contracts/:id/payment',
+      props: true,
+      name: 'contractPayment',
+      component: ContractPayment,
       beforeEnter: AuthGuard,
       meta: {
         breadcrumb: [
