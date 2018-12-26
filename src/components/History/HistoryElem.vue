@@ -170,7 +170,6 @@ export default {
     },
     onWantMore() {
       this.page += 1;
-      console.log(this.moreButtonPage);
       this.$router.replace({ query: { page: this.page } });
       this.$store.dispatch('getSignalsObjects', {
         token: this.$store.getters.user.token,
