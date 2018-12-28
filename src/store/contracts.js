@@ -48,6 +48,7 @@ export default {
             contract_ids: contractIds,
           }).then(({ data }) => {
             let requestCounter = 0;
+            let delay = 0;
 
             function statusChecker(orderId) {
               axios
@@ -63,8 +64,11 @@ export default {
                       window.location.href = `/contracts/${id}/payment/fail`;
                     }
                   } else {
-                    commit('showModalWaiter', false);
-                    window.location.href = response.data.formUrl;
+                    if (!requestCounter) delay = 500;
+                    setTimeout(() => {
+                      commit('showModalWaiter', false);
+                      window.location.href = response.data.formUrl;
+                    }, delay);
                   }
                 }).catch((e) => {
                   commit('showModalWaiter', false);
