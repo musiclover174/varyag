@@ -51,7 +51,7 @@ export default {
 
             function statusChecker(orderId) {
               axios
-                .post(`${API_URL}/api/v2/acquiring/CheckPayment `, {
+                .post(`${API_URL}/api/v2/acquiring/CheckPayment`, {
                   orderId,
                 }).then((response) => {
                   if (response.data.status !== 0) {
@@ -67,6 +67,8 @@ export default {
                     window.location.href = response.data.formUrl;
                   }
                 }).catch((e) => {
+                  commit('showModalWaiter', false);
+                  window.location.href = `/contracts/${id}/payment/fail`;
                   throw e;
                 });
             }
@@ -74,7 +76,9 @@ export default {
             statusChecker(data.orderId);
           });
       } catch (e) {
+        commit('showModalWaiter', false);
         commit('setError', e.message);
+        window.location.href = `/contracts/${id}/payment/fail`;
         throw e;
       }
     },
