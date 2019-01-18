@@ -1,6 +1,6 @@
 <template>
   <main class="auth" role="main">
-    <img class="auth__logo" src="../assets/logo.png" alt="" role="presentation">
+    <img class="auth__logo" src="/i/logo.png" alt="" role="presentation">
 
     <form class="auth__form" @submit="checkPhone" v-if="!phoneEnter">
       <p class="auth__title">Личный кабинет</p>

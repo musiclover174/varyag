@@ -42,7 +42,7 @@ export default {
       userName: this.user.name.split(' ')[1],
       fullName: this.user.name,
       contact: this.user.contact,
-      imgSrc: this.user.img || 'https://keenthemes.com/metronic/preview/assets/app/media/img/users/user4.jpg',
+      imgSrc: this.user.img || '/i/avatar.svg',
     };
   },
   methods: {

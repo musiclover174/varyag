@@ -9,7 +9,7 @@
         <div class="container">
           <div class="header__bar">
             <a class="header__logo" href="#">
-              <img class="header__img" src="./assets/logo_small.png" alt="" role="presentation">
+              <img class="header__img" src="/i/logo_small.png" alt="" role="presentation">
             </a>
             <aside class="header__buttons">
               <button
@@ -122,12 +122,12 @@ export default {
             href: '/objects/history',
           },
           {
-            title: 'Ответственные',
-            href: '/objects/responsible',
+            title: 'Пользователи объектов',
+            href: '/objects/users',
           },
           {
-            title: 'Пользователи',
-            href: '/objects/users',
+            title: 'Контактные лица',
+            href: '/objects/persons',
           },
         ],
       },

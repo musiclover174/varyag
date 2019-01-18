@@ -6,8 +6,8 @@ import Login from '@/components/Login.vue';
 import Objects from '@/components/Objects.vue';
 import History from '@/components/History/History.vue';
 import HistoryElem from '@/components/History/HistoryElem.vue';
-import Responsible from '@/components/Responsible.vue';
 import Users from '@/components/Users.vue';
+import ContactPersons from '@/components/ContactPersons.vue';
 import Contracts from '@/components/Contracts/Contracts.vue';
 import Contract from '@/components/Contracts/Contract.vue';
 import ContractPayment from '@/components/Contracts/ContractPayment.vue';
@@ -86,16 +86,26 @@ export default new Router({
       beforeEnter: AuthGuard,
     },
     {
-      path: '/objects/responsible',
-      name: 'responsible',
-      component: Responsible,
-      beforeEnter: AuthGuard,
-    },
-    {
       path: '/objects/users',
       name: 'users',
       component: Users,
       beforeEnter: AuthGuard,
+      meta: {
+        breadcrumb: [
+          { name: 'Объекты', link: 'objects' },
+        ],
+      },
+    },
+    {
+      path: '/objects/persons',
+      name: 'cpersons',
+      component: ContactPersons,
+      beforeEnter: AuthGuard,
+      meta: {
+        breadcrumb: [
+          { name: 'Объекты', link: 'objects' },
+        ],
+      },
     },
     {
       path: '/login',

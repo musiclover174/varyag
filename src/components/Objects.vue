@@ -36,19 +36,19 @@
           </li>
           <li class="content__side-item">
             <router-link
-              to="/objects/responsible"
-              class="content__side-href"
-              active-class="active"
-              exact
-            >Ответственныe</router-link>
-          </li>
-          <li class="content__side-item">
-            <router-link
               to="/objects/users"
               class="content__side-href"
               active-class="active"
               exact
-            >Пользователи</router-link>
+            >Пользователи объектов</router-link>
+          </li>
+          <li class="content__side-item">
+            <router-link
+              to="/objects/persons"
+              class="content__side-href"
+              active-class="active"
+              exact
+            >Контактные лица</router-link>
           </li>
         </ul>
       </nav>

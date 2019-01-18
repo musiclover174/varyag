@@ -57,7 +57,7 @@
 
     <div class="content__main">
       <section class="top">
-        <h1 class="top__title">Пользователи объектов</h1>
+        <h1 class="top__title">Контактные лица</h1>
         <div class="breadcrumbs" v-if="breadcrumbList.length">
           <router-link
             to="/"
@@ -69,30 +69,33 @@
             :to="'/' + breadcrumb.link"
             :key="idx"
           >{{ breadcrumb.name }}</router-link>
-          <span class="breadcrumbs__item">Пользователи объектов</span>
+          <span class="breadcrumbs__item">Контактные лица</span>
         </div>
       </section>
-      <ul class="objects__list">
+      <!-- Тут будет цикл итераций по договорам -->
+      <p class="person__contract">по договору № 587498/17 от 28.09.2017 г.</p>
+      <ul class="person__list">
         <li
-          class="objects__item"
-          v-for="object of objects"
-          :key="object.id"
+          class="person__item"
+          v-for="person of persons"
+          :key="person.id"
         >
-          <p class="objects__name">{{ object.name }}</p>
-          <p class="objects__place">{{ object.address }}</p>
-          <ul class="users__list">
-            <li
-              class="users__item"
-              v-for="(responsible, index) in object.responsibles"
-              :key="responsible.id"
-            >{{ (index + 1) + '. ' + responsible.full_name }}
-              <button class="users__item-remove" type="button" aria-label="Удалить"></button>
-            </li>
-            <li class="users__item">
-              <button class="users__item-add" type="button">Добавить</button>
-            </li>
-          </ul>
+          <aside class="person__imgover">
+            <img src="/i/avatar.svg" class="person__avatar">
+          </aside>
+          <div class="person__info">
+            <p class="person__name">{{ person.name }}
+              <button class="person__edit" type="button" aria-label="Редактировать"></button>
+            </p>
+            <p class="person__place">Руководитель отдела</p>
+            <p class="person__telover">тел.:
+              <a href="tel:79090909090" class="person__tel">+79090909090</a>
+            </p>
+            <a href="mailto:iamalinin@variag.ru" class="person__mail">iamalinin@variag.ru</a>
+          </div>
         </li>
+        <!-- кнопка "добавить" для цикла -->
+        <button class="person__add" type="button">Добавить</button>
       </ul>
 
     </div>
@@ -115,9 +118,18 @@ export default {
     objects() {
       return this.$store.getters.objects;
     },
+    persons() {
+      return this.$store.getters.persons;
+    },
     sideFlag() {
       return this.$store.getters.sideOpen;
     },
+  },
+  created() {
+    this.$store.dispatch('getPersons', {
+      token: this.$store.getters.user.token,
+      router: this.$router,
+    });
   },
 };
 </script>
