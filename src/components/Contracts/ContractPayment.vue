@@ -69,11 +69,11 @@
             <p
               class="contract__payment-info-elem"
               v-if="contract.payment"
-            >{{ contract.payment }}</p>
+            >Оплачено до: {{ contract.payment }}</p>
             <p
               class="contract__payment-info-elem"
-              v-if="contract.recommend"
-            >{{ contract.recommend }}</p>
+              v-if="contract.subscriptionFee"
+            >Рекомендуемая сумма оплаты: {{ contract.subscriptionFee }}</p>
           </div>
 
           <form class="contract__payment-form">

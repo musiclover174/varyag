@@ -2,13 +2,15 @@ import axios from 'axios';
 import API_URL from './constants';
 
 class Contract {
-  constructor(id, number, date, balance, type, client) {
+  constructor(id, number, date, balance, type, client, allowPayment, subscriptionFee) {
     this.id = id;
     this.number = number;
     this.date = date;
     this.balance = balance;
     this.type = type;
     this.client = client;
+    this.allow_payment = allowPayment;
+    this.subscriptionFee = subscriptionFee;
     this.objects = [];
   }
 }
@@ -115,6 +117,8 @@ export default {
                     contract.balance,
                     contract.type,
                     contract.client,
+                    contract.allow_payment,
+                    contract.subscription_fee,
                   ),
                 );
               });

@@ -61,6 +61,7 @@
             <router-link
               :to="'/contracts/' + contract.number + '/payment'"
               class="contract__pay"
+              v-if="contract.allow_payment"
             >
               Оплатить
             </router-link>
