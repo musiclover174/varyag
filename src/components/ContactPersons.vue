@@ -87,11 +87,11 @@
             <p class="person__name">{{ person.name }}
               <button class="person__edit" type="button" aria-label="Редактировать"></button>
             </p>
-            <p class="person__place">Руководитель отдела</p>
-            <p class="person__telover">тел.:
-              <a href="tel:79090909090" class="person__tel">+79090909090</a>
+            <p class="person__place">Должность</p>
+            <p class="person__telover">тел: 
+              <a href="tel:79000000000" class="person__tel">+79000000000</a>
             </p>
-            <a href="mailto:iamalinin@variag.ru" class="person__mail">iamalinin@variag.ru</a>
+            <a href="mailto:email@variag.ru" class="person__mail">email@variag.ru</a>
           </div>
         </li>
         <!-- кнопка "добавить" для цикла -->
