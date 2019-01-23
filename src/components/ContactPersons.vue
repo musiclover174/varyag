@@ -81,14 +81,14 @@
           :key="person.id"
         >
           <aside class="person__imgover">
-            <img src="/i/avatar.svg" class="person__avatar">
+            <img src="/i/person_default.svg" class="person__avatar">
           </aside>
           <div class="person__info">
             <p class="person__name">{{ person.name }}
               <button class="person__edit" type="button" aria-label="Редактировать"></button>
             </p>
             <p class="person__place">Должность</p>
-            <p class="person__telover">тел: 
+            <p class="person__telover">тел:
               <a href="tel:79000000000" class="person__tel">+79000000000</a>
             </p>
             <a href="mailto:email@variag.ru" class="person__mail">email@variag.ru</a>
