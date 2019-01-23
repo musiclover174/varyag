@@ -2368,6 +2368,15 @@ textarea.warning {
   padding-right: 30px;
   border: 0;
   border-bottom: 1px solid #0f0f0f;
+  transition: .7s border-color;
+  -webkit-transition: .7s border-color;
+  -moz-transition: .7s border-color;
+  -ms-transition: .7s border-color;
+  -o-transition: .7s border-color;
+}
+
+.contract__payment-input.warning{
+  border-color: red;
 }
 
 .contract__payment-input::-webkit-outer-spin-button,

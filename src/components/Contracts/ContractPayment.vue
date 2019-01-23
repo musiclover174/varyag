@@ -129,17 +129,22 @@ export default {
       this.$store.dispatch('setSideState', false);
     },
     wantPay() {
-      const contractsArray = [];
-      contractsArray.push(this.contract.id);
+      if (this.money.replace(/\s/g, '') !== '') {
+        document.querySelector('.contract__payment-input').classList.remove('warning');
+        const contractsArray = [];
+        contractsArray.push(this.contract.id);
 
-      this.$store.dispatch('setPaymentStart', {
-        summa: this.money,
-        email: '',
-        phone: this.user.phone,
-        s: '1',
-        contractIds: contractsArray,
-        id: this.id,
-      });
+        this.$store.dispatch('setPaymentStart', {
+          summa: this.money,
+          email: '',
+          phone: this.user.phone,
+          s: '1',
+          contractIds: contractsArray,
+          id: this.id,
+        });
+      } else {
+        document.querySelector('.contract__payment-input').classList.add('warning');
+      }
     },
   },
   computed: {
