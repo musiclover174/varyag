@@ -2514,7 +2514,7 @@ textarea.warning {
   align-items: flex-start;
   justify-content: flex-start;
   position: relative;
-  color: #656565;
+  color: black;
   width: 90%;
   max-width: 390px;
 }
