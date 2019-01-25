@@ -1,6 +1,6 @@
+import Vue from 'vue';
 import axios from 'axios';
 import API_URL from './constants';
-import Vue from 'vue';
 
 class Obj {
   constructor(id, number, date, address, services, agent, name, responsibles, info) {
