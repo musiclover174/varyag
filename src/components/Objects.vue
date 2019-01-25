@@ -59,12 +59,57 @@
       <section class="top">
         <h1 class="top__title">Объекты</h1>
       </section>
-      В дальнейшем на этой странице будет перечень объектов и их статусы
+
+      <ul
+        class="objects__list objects__list_main"
+        v-if="objects">
+        <li
+          class="objects__item objects__item_locked"
+          :class="{
+            objects__item_locked: object.info.status,
+            objects__item_unlocked: !object.info.status
+          }"
+          v-for="object of objects"
+          :key="object.id"
+        >
+          <p class="objects__name">
+            {{ object.name }}
+            <button type="button" class="object__name-edit"></button>
+          </p>
+          <p class="objects__place">{{ object.address }}</p>
+          <div class="objects__signal">
+            <p class="objects__signal-date">{{ object.info.last_signal.time | toDate }}</p>
+            <p class="objects__signal-time">{{ object.info.last_signal.time | toTime }}</p>
+            <p class="objects__signal-text">{{ object.info.last_signal.title }}</p>
+          </div>
+          <div class="objects__signal objects__signal_toall">
+            <p class="objects__signal-date"></p>
+            <p class="objects__signal-time objects__signal-time_icon"></p>
+            <p class="objects__signal-text">
+              <router-link
+                :to="'/objects/history/' + object.id"
+                class="objects__signal-href"
+              >Еще</router-link>
+            </p>
+          </div>
+        </li>
+      </ul>
+
     </div>
   </div>
 </template>
 
 <script>
+import {
+  formatDate,
+  formatTime,
+} from '../helpers/helpers';
+
+const cDate = new Date();
+const tDate = formatDate(cDate);
+cDate.setDate(cDate.getDate() - 1);
+const yDate = formatDate(cDate);
+
 export default {
   methods: {
     sideClose() {
@@ -77,6 +122,23 @@ export default {
     },
     sideFlag() {
       return this.$store.getters.sideOpen;
+    },
+  },
+  filters: {
+    toDate: (val) => {
+      const date = new Date();
+      date.setTime(val);
+
+      let finalDate = formatDate(date);
+
+      if (tDate === finalDate) finalDate = 'Сегодня';
+      if (yDate === finalDate) finalDate = 'Вчера';
+      return finalDate;
+    },
+    toTime: (val) => {
+      const date = new Date();
+      date.setTime(val);
+      return formatTime(date);
     },
   },
 };

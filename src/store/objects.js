@@ -2,7 +2,7 @@ import axios from 'axios';
 import API_URL from './constants';
 
 class Obj {
-  constructor(id, number, date, address, services, agent, name, responsibles) {
+  constructor(id, number, date, address, services, agent, name, responsibles, info) {
     this.id = id;
     this.number = number;
     this.date = date;
@@ -11,6 +11,7 @@ class Obj {
     this.agent = agent;
     this.name = name;
     this.responsibles = responsibles;
+    this.info = info;
   }
 }
 
@@ -41,7 +42,7 @@ export default {
 
       try {
         await axios
-          .post(`${API_URL}/api/v2/getAllObjects`, { persons: true }, headers)
+          .post(`${API_URL}/api/v2/getAllObjects`, { full: true }, headers)
           .then(({ data }) => {
             if (data.objects) {
               data.objects.forEach(async (object) => {
@@ -55,6 +56,7 @@ export default {
                     object.contract.type,
                     object.name_by_user || object.name,
                     object.persons,
+                    object.object_info,
                   ),
                 );
               });
