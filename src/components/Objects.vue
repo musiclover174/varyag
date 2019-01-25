@@ -88,7 +88,12 @@
           </div>
           <div class="objects__signal objects__signal_toall">
             <p class="objects__signal-date"></p>
-            <p class="objects__signal-time objects__signal-time_icon"></p>
+            <p class="objects__signal-time">
+              <router-link
+                :to="'/objects/history/' + object.id"
+                class="objects__signal-time_icon"
+              ></router-link>
+            </p>
             <p class="objects__signal-text">
               <router-link
                 :to="'/objects/history/' + object.id"
