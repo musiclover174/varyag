@@ -74,7 +74,11 @@
         >
           <p class="objects__name">
             {{ object.name }}
-            <button type="button" class="object__name-edit"></button>
+            <button
+              type="button"
+              class="object__name-edit"
+              @click="openModal(object.id, object.name)"
+            ></button>
           </p>
           <p class="objects__place">{{ object.address }}</p>
           <div class="objects__signal">
@@ -94,8 +98,31 @@
           </div>
         </li>
       </ul>
-
     </div>
+
+    <transition name="fade">
+      <div v-if="showModal" class="modal" v-cloak>
+        <form class="modal__inner modal__inner_name">
+          <input
+            type="text"
+            class="modal__input js-changeInp"
+            v-model="name"
+          >
+          <div class="modal__buttons modal__buttons_right">
+            <button
+              type="button"
+              class="modal__button"
+              @click="closeModal"
+            >Отмена</button>
+            <button
+              type="submit"
+              class="modal__button"
+              @click.prevent="changeName"
+            >Сохранить</button>
+          </div>
+        </form>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -111,9 +138,43 @@ cDate.setDate(cDate.getDate() - 1);
 const yDate = formatDate(cDate);
 
 export default {
+  data() {
+    return {
+      showModal: false,
+      changeNumber: null,
+      name: '',
+    };
+  },
   methods: {
     sideClose() {
       this.$store.dispatch('setSideState', false);
+    },
+    closeModal() {
+      this.showModal = false;
+      this.changeNumber = null;
+      this.name = '';
+    },
+    openModal(id, name) {
+      this.changeNumber = id;
+      this.showModal = true;
+      this.name = name;
+    },
+    changeName() {
+      if (this.name.replace(/\s/g, '') !== '') {
+        document.querySelector('.js-changeInp').classList.remove('warning');
+
+        this.$store.dispatch('changeObjectName', {
+          token: this.$store.getters.user.token,
+          id: this.changeNumber,
+          name: this.name,
+        });
+
+        this.showModal = false;
+        this.changeNumber = null;
+        this.name = '';
+      } else {
+        document.querySelector('.js-changeInp').classList.add('warning');
+      }
     },
   },
   computed: {

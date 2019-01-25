@@ -1,5 +1,6 @@
 import axios from 'axios';
 import API_URL from './constants';
+import Vue from 'vue';
 
 class Obj {
   constructor(id, number, date, address, services, agent, name, responsibles, info) {
@@ -22,6 +23,13 @@ export default {
   mutations: {
     loadObject(state, payload) {
       state.objects = payload;
+    },
+    updateObjectNameById(state, { id, name }) {
+      state.objects.forEach((object, index) => {
+        if (object.id === id) {
+          Vue.set(state.objects[index], 'name', name);
+        }
+      });
     },
   },
   actions: {
@@ -79,6 +87,44 @@ export default {
 
         commit('loadObject', resultObjs);
         commit('setLoading', false);
+      } catch (e) {
+        commit('setLoading', false);
+        commit('setError', e.message);
+        throw e;
+      }
+    },
+    async changeObjectName({ commit }, {
+      token,
+      id,
+      name,
+    }) {
+      commit('clearError');
+      commit('setLoading', true);
+
+      const headers = {
+        headers: {
+          Authorization: token,
+        },
+      };
+
+      try {
+        await axios
+          .post(`${API_URL}/api/v2/savePreferences/${id}`, {
+            name,
+            fault: true,
+            protection: true,
+            sensor: true,
+          }, headers).then(({ data }) => {
+            if (data.success) {
+              commit('updateObjectNameById', {
+                id,
+                name,
+              });
+            } else {
+              commit('setError', data.message);
+            }
+            commit('setLoading', false);
+          });
       } catch (e) {
         commit('setLoading', false);
         commit('setError', e.message);
