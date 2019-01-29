@@ -1357,6 +1357,22 @@ textarea.warning {
   }
 }
 
+.auth__subtitle {
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.4rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.auth__app{
+  text-decoration: none;
+}
+
+.auth__gplay{
+  max-width: 170px;
+}
+
 .auth__error {
   color: #e48585;
   font-size: 1.125rem;

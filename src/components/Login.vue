@@ -4,6 +4,9 @@
 
     <form class="auth__form" @submit="checkPhone" v-if="!phoneEnter">
       <p class="auth__title">Личный кабинет</p>
+      <p
+        class="auth__subtitle"
+      >Для входа введите номер телефона и нажмите кнопку "Отправить смс"</p>
       <div class="auth__row">
         <input
           class="auth__input"
@@ -37,16 +40,9 @@
       </div>
     </form>
     <div class="auth__info">
-      <a
-        href="/files/payment_instruction.rtf"
-        class="auth__link"
-        target="_blank"
-      >Инструкция по оплате</a> |
-      <a
-        href="/files/company_details.png"
-        class="auth__link"
-        target="_blank"
-      >Реквизиты</a>
+      <a href="https://play.google.com/store/apps/details?id=ru.variag.variag&hl=ru" target="_blank" class="auth__app">
+        <img class="auth__gplay" alt="Доступно в Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/ru_badge_web_generic.png">
+      </a>
     </div>
   </main>
 </template>
