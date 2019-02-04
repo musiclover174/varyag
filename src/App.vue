@@ -9,7 +9,18 @@
         <div class="container">
           <div class="header__bar">
             <a class="header__logo" href="#">
-              <img class="header__img" src="/i/logo_small.png" alt="" role="presentation">
+              <img
+                class="header__img header__img_full"
+                src="/i/logo.png"
+                alt=""
+                role="presentation"
+              >
+              <img
+                class="header__img header__img_scroll"
+                src="/i/logo_small.png"
+                alt=""
+                role="presentation"
+              >
             </a>
             <aside class="header__buttons">
               <button

@@ -666,8 +666,20 @@ textarea.warning {
 }
 
 .header__img{
+  display: none;
+  max-width: 222px;
   transition: .7s height;
   -webkit-transition: .7s height;
+}
+
+.header__img_scroll{
+  display: none;
+}
+
+
+.header:not(.shorten) .header__img_full,
+.header.shorten .header__img_scroll{
+  display: block;
 }
 
 @media (max-width: 500px) {
