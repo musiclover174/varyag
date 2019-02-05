@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "firebase": "^5.8.2",
     "imask": "^4.1.1",
     "inputmask": "^5.0.0-beta.81",
     "moment": "^2.22.2",
