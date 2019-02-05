@@ -1,6 +1,5 @@
 import axios from 'axios';
 import API_URL from './constants';
-import { askForPermissioToReceiveNotifications } from '../push-notification';
 
 class User {
   constructor(token, name, phone) {
