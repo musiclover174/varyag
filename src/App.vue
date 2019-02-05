@@ -116,9 +116,12 @@
 
 <script>
 import UserInfo from './components/UserInfo.vue';
+import initializeFirebase from './push-notification';
 
 export default {
   data() {
+    if (this.$store.getters.user) initializeFirebase();
+
     return {
       infoOpen: false,
       burgerOpen: false,
