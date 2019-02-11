@@ -68,6 +68,9 @@ export default {
         throw e;
       }
     },
+    clearPersons({ commit }) {
+      commit('loadPersons', []);
+    },
   },
   getters: {
     persons: state => state.persons,

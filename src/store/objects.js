@@ -93,6 +93,9 @@ export default {
         throw e;
       }
     },
+    clearObjects({ commit }) {
+      commit('loadObject', []);
+    },
     async changeObjectName({ commit }, {
       token,
       id,

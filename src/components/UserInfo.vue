@@ -50,6 +50,9 @@ export default {
   },
   methods: {
     onLogout() {
+      this.$store.dispatch('clearObjects');
+      this.$store.dispatch('clearPersons');
+      this.$store.dispatch('clearSignalsObjects');
       this.$store.dispatch('logoutUser');
       this.$router.push('/login');
     },
