@@ -93,9 +93,6 @@
 </template>
 
 <script>
-
-
-
 export default {
   data() {
     return {
@@ -122,7 +119,6 @@ export default {
       newEl.querySelector('.js-phone-remove').addEventListener('click', () => {
         newEl.remove();
       });
-      
     },
   },
   computed: {
