@@ -12,6 +12,7 @@ import Contracts from '@/components/Contracts/Contracts.vue';
 import Contract from '@/components/Contracts/Contract.vue';
 import ContractPayment from '@/components/Contracts/ContractPayment.vue';
 import contractPaymentResult from '@/components/Contracts/ContractPaymentResult.vue';
+import userProfile from '@/components/Personal/UserProfile.vue';
 
 Vue.use(Router);
 
@@ -106,6 +107,12 @@ export default new Router({
           { name: 'Объекты', link: 'objects' },
         ],
       },
+    },
+    {
+      path: '/profile',
+      name: 'userProfile',
+      component: userProfile,
+      beforeEnter: AuthGuard,
     },
     {
       path: '/login',

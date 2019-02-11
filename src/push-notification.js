@@ -5,6 +5,7 @@ const askForPermissioToReceiveNotifications = async () => {
     const messaging = firebase.messaging();
     await messaging.requestPermission();
     const token = await messaging.getToken();
+    localStorage.setItem('notification_token', token);
     return token;
   } catch (error) {
     return error;

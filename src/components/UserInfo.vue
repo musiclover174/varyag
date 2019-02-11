@@ -19,10 +19,13 @@
       <section class="header__info-hrefs">
         <ul class="header__info-hreflist">
           <li class="header__info-hrefitem">
-            <a href="#" class="header__info-href">
+            <router-link
+              to="/profile"
+              class="header__info-href"
+            >
               <i class="header__info-icon header__info-icon_personal"></i>
               Мой профиль
-            </a>
+            </router-link>
           </li>
           <li class="header__info-hrefitem">
             <button class="header__info-logout" @click="onLogout">Выйти</button>
@@ -53,7 +56,9 @@ export default {
   },
   mounted() {
     document.addEventListener('click', (event) => {
-      if (event.target.closest('.header__info') || event.target.classList.contains('js-showinfo')) return;
+      if (!event.target.classList.contains('header__info-href')
+        && (event.target.closest('.header__info') || event.target.classList.contains('js-showinfo'))
+      ) return;
       this.showInfo = false;
     });
   },

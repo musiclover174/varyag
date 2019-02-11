@@ -4,7 +4,7 @@ import {
   formatDate,
   formatTime,
   mergeDeep,
-} from '../helpers/helpers';
+} from '../helpers';
 
 class Signal {
   constructor(id, title, day, time) {

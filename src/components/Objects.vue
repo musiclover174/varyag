@@ -135,7 +135,7 @@
 import {
   formatDate,
   formatTime,
-} from '../helpers/helpers';
+} from '@/helpers';
 
 const cDate = new Date();
 const tDate = formatDate(cDate);
