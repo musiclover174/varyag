@@ -116,7 +116,12 @@
 
 <script>
 import UserInfo from './components/UserInfo.vue';
-import initializeFirebase from './push-notification';
+
+if (navigator.userAgent.indexOf('MSIE') >= 0) {
+  alert('You are using an unsupported version of Internet Explorer. Please upgrade to Internet Explorer 11 or use a different web browser.');
+} else {
+  const initializeFirebase = require('./push-notification');
+}
 
 export default {
   data() {

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="content__main">
-      <p>Здесь будет какое-то содержимое</p>
+      <p>Данная страница находится на стадии разработки.</p>
     </div>
   </div>
 </template>
